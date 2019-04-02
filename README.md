@@ -288,7 +288,11 @@ alert tcp any any -> any any (msg:"Mon nom!"; content:"Rubinstein"; sid:4000015;
 
 ---
 
-**Reponse :**  
+**Reponse :** 
+
+Va alerter lorsqu’un paquet TCP, contenant le mot « Rubinstein », est envoyé depuis n’importe quelle source, ainsi que n’importe quel port vers n’importe quelle destination, ainsi que n’importe quel port. 
+
+Lorsqu’une alerte est levée, le titre de celle-ci est composé du message “Mon nom!”, ainsi que l’identifiant unique de la règle (Soit sid:4000015 et rev:1).
 
 ---
 
@@ -298,11 +302,15 @@ Utiliser un éditeur et créer un fichier `myrules.rules` sur votre répertoire 
 sudo snort -c myrules.rules -i eth0
 ```
 
-**Question 2: Que voyez-vous quand le logiciel est lancé ? Qu'est-ce que ça vaut dire ?**
+**Question 2: Que voyez-vous quand le logiciel est lancé ? Qu'est-ce que ça veut dire ?**
 
 ---
 
 **Reponse :**  
+
+![/images/Q2-regle.png](./images/Q2-regle.png)
+
+![/images/Q2-alert.png](./images/Q2-alert.png)
 
 ---
 
