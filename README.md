@@ -308,6 +308,8 @@ sudo snort -c myrules.rules -i eth0
 
 **Reponse :**  
 
+Tant que le programme tourne, nous avons "WARNING: No preprocessors configured for policy 0." qui s'affiche en boucle sur le stdout. Lorsqu'une alerte est levée, elle n'est pas affichée dans le stdout mais est logée dans le fichier /var/log/snort/alert. Vu du fichier alert ci-dessous :
+
 ![/images/Q2-regle.png](./images/Q2-regle.png)
 
 ![/images/Q2-alert.png](./images/Q2-alert.png)
@@ -322,6 +324,10 @@ Aller à un site web contenant votre nom ou votre mot clé que vous avez choisi 
 
 **Reponse :**  
 
+Les alertes détectées ci-dessous sur le site http://abc-cards.ch/ correspondent à des requêtes qui contiennent le mot “ABC”.
+
+![](images/Q3-alert-site.png)
+
 ---
 
 Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il y ait des alertes pour votre nom.
@@ -330,7 +336,14 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 
 ---
 
-**Reponse :**  
+**Reponse :** 
+
+- Les champs de la première ligne identifie l'alerte lancée. 
+- La 2ème ligne concerne la priorité de l'alerte qui peut être définie dans la règle mais qui par défaut vaut 0.
+- La 3ème ligne correspond aux informations de la requête effectuée sur l’adresse IP du site internet.
+- Les 3 dernières lignes donnes des informations sur le paquet IP transmis.
+
+![](/Users/julienbenoit/Google Drive/HEIG/Semestre 4/SRX/Labo/3.IDS/Teaching-HEIGVD-SRX-2019-Labo-IDS/images/Q4-alert-description.png)
 
 ---
 
@@ -347,6 +360,12 @@ Ecrire une règle qui journalise (sans alerter) un message à chaque fois que Wi
 
 **Reponse :**  
 
+```bash
+log tcp 10.192.106.38 any -> any any (msg:"Connexion to wikipedia"; reference:url,https://www.wikipedia.org;sid:4000006; rev:1;)
+```
+
+Le message a été journalisé dans /var/log/snort sous un format lisible par tcpdump ou wireshark mais pas dans le fichier alert.
+
 ---
 
 --
@@ -360,6 +379,13 @@ Ecrire une règle qui alerte à chaque fois que votre système reçoit un ping d
 ---
 
 **Reponse :**  
+
+```bash
+alert icmp any any -> 10.192.93.61 any (itype:8; msg:"Ping sur ma machine"; sid:21)
+drop icmp 10.192.93.61 any -> any any (msg:"Ping depuis ma machine"; sid:22)
+```
+
+
 
 ---
 
@@ -382,7 +408,7 @@ Modifier votre règle pour que les pings soient détectés dans les deux sens.
 
 ### Detecter une tentative de login SSH
 
-Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été faite depuis la machine d'un voisin. Si vous avez besoin de plus d'information sur ce qui décrit cette tentative (adresses, ports, protocoles), servez-vous de Wireshark pour analyser les échanges lors de la requête de connexion depuis votre voisi.
+Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été faite depuis la machine d'un voisin. Si vous avez besoin de plus d'information sur ce qui décrit cette tentative (adresses, ports, protocoles), servez-vous de Wireshark pour analyser les échanges lors de la requête de connexion depuis votre voisin.
 
 **Question 8: Quelle est votre règle ? Montrer la règle et expliquer comment elle fonctionne. Montre le message d'alerte enregistré dans le fichier d'alertes.**
 
