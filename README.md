@@ -428,7 +428,7 @@ Lancer Wireshark et faire une capture du trafic sur l'interface connectée au br
 
 ---
 
-**Reponse :**  
+**Reponse :**  L'option -r de Snort permet de lire des fichiers format pcap ou log.
 
 ---
 
