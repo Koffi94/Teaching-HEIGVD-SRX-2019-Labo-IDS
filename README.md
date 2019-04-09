@@ -343,7 +343,7 @@ Aller au répertoire /var/log/snort. Ouvrir le fichier `alert`. Vérifier qu'il 
 - La 3ème ligne correspond aux informations de la requête effectuée sur l’adresse IP du site internet.
 - Les 3 dernières lignes donnes des informations sur le paquet IP transmis.
 
-![](/Users/julienbenoit/Google Drive/HEIG/Semestre 4/SRX/Labo/3.IDS/Teaching-HEIGVD-SRX-2019-Labo-IDS/images/Q4-alert-description.png)
+![](images/Q4-alert-description.png)
 
 ---
 
@@ -381,11 +381,14 @@ Ecrire une règle qui alerte à chaque fois que votre système reçoit un ping d
 **Reponse :**  
 
 ```bash
-alert icmp any any -> 10.192.93.61 any (itype:8; msg:"Ping sur ma machine"; sid:21)
-drop icmp 10.192.93.61 any -> any any (msg:"Ping depuis ma machine"; sid:22)
+alert icmp any any -> 10.192.93.91 any (itype:8; msg:"Ping sur ma machine"; sid:21; rev:1)
 ```
 
+Pour alerter uniquement les pings entrants, nous avons mentionné dans la règle que c’est les pings de n’importe où sur n’importe quel port (any any) vers notre hôte (10.192.93.91) sur n’importe quel port. La direction "extérieur vers hôte" se fait via la flèche `->`.
 
+Les alertes sont journalisées dans le fichier d’alerte dans: `/var/log/snort/alert`. 
+
+![Q6-ping-entrant](images/Q6-ping-entrant.jpg)
 
 ---
 
@@ -400,6 +403,12 @@ Modifier votre règle pour que les pings soient détectés dans les deux sens.
 ---
 
 **Reponse :**  
+
+```bash
+alert icmp any any <> 10.192.93.91 any (itype:8; msg:"Ping sur ma machine"; sid:21; rev:1)
+```
+
+il suffit de simplement modifier l’opérateur de direction `->` en `<>` qui signifie qu’on capture le trafic dans les deux sens.
 
 ---
 
@@ -438,7 +447,17 @@ Utiliser l'option correcte de Snort pour analyser le fichier de capture Wireshar
 
 ---
 
-**Reponse :**  
+**Reponse :** 
+
+Cela va afficher un récapitulatif de la capture presque identique à celle d’une capture temps réel de snort, mais avec moins d’information comme on peut le voir avec les deux captures suivante. Aucune alerte n’a été enregistrée dans le fichier d’alertes.
+
+Capture temps réel Snort : 
+
+![Q10-recap-snort](images/Q10-recap-snort.png)
+
+Capture Wireshark avec Snort :
+
+![Q10-recap-wireshark](images/Q10-recap-wireshark.png)
 
 ---
 
