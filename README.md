@@ -425,6 +425,22 @@ Essayer d'écrire une règle qui Alerte qu'une tentative de session SSH a été 
 
 **Reponse :**  
 
+Voici la règle :
+
+```bash
+alert tcp any any -> 10.192.106.238 22 (msg:"Tentative de connexion SSH"; sid:4000008; rev:1;)
+```
+
+Cette règle permet de créer une alerte lorsque n'importe qui depuis n'importe quel port (any any) essaie d'accéder à ma machine en ssh (ip 10.192.106.238 port 22). Une entrée est enregistrée dans le fichier /var/log/snort/alert avec comme tag "Tentative de connexion SSH", sid:4000008 et rev:1 à chaque tentative de connexion sur ma machine.
+
+Voici le fichier d'alerte après les tentatives effectuées par mon collègue :
+
+![](./images/Q8-alert-file.png)
+
+Ci-dessus, on peut voir les 6 tentatives de connexion ssh de mon collègue (10.192.104.221) sur ma machine (10.192.106.238).
+
+Note: On remarque que mon collègue n'est pas sur le même réseau que moi. Ceci est dù aux routages internes du réseau de l'école.
+
 ---
 
 --
