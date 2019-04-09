@@ -361,10 +361,14 @@ Ecrire une règle qui journalise (sans alerter) un message à chaque fois que Wi
 **Reponse :**  
 
 ```bash
-log tcp 10.192.106.38 any -> any any (msg:"Connexion to wikipedia"; reference:url,https://www.wikipedia.org;sid:4000006; rev:1;)
+log tcp 10.192.93.91 any -> 91.198.174.192 any (msg:"Connexion to wikipedia"; sid:4000006; rev:1)
 ```
 
 Le message a été journalisé dans /var/log/snort sous un format lisible par tcpdump ou wireshark mais pas dans le fichier alert.
+
+![Q5-wiki](images/Q5-wiki.jpg)
+
+![Q5-wiki-log](images/Q5-wiki-log.jpg)
 
 ---
 
@@ -431,7 +435,7 @@ Voici la règle :
 alert tcp any any -> 10.192.106.238 22 (msg:"Tentative de connexion SSH"; sid:4000008; rev:1;)
 ```
 
-Cette règle permet de créer une alerte lorsque n'importe qui depuis n'importe quel port (any any) essaie d'accéder à ma machine en ssh (ip 10.192.106.238 port 22). Une entrée est enregistrée dans le fichier /var/log/snort/alert avec comme tag "Tentative de connexion SSH", sid:4000008 et rev:1 à chaque tentative de connexion sur ma machine.
+Cette règle permet de créer une alerte lorsque n'importe qui depuis n'importe quel port (any any) essaie d'accéder à ma machine en ssh (ip 10.192.106.238 port 22). Une entrée est enregistrée dans le fichier `/var/log/snort/alert` avec comme tag "Tentative de connexion SSH", sid:4000008 et rev:1 à chaque tentative de connexion sur ma machine.
 
 Voici le fichier d'alerte après les tentatives effectuées par mon collègue :
 
